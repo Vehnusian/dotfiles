@@ -1,0 +1,84 @@
+{
+  // --- Window ---
+  "window.restoreWindows": "none",
+  "window.titleBarStyle": "custom",
+  "window.commandCenter": true,
+
+  // --- Editor ---
+  "editor.fontFamily": "'JetBrainsMono Nerd Font', 'Cascadia Code', Consolas, monospace",
+  "editor.fontSize": 13,
+  "editor.fontLigatures": true,
+  "editor.minimap.enabled": false,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+  "editor.stickyScroll.enabled": true,
+  "editor.wordWrap": "off",
+  "editor.renderWhitespace": "trailing",
+  "editor.accessibilitySupport": "off",
+  "editor.largeFileOptimizations": false,
+  "editor.linkedEditing": true,
+  "editor.inlineSuggest.enabled": true,
+
+  // --- Workbench ---
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "workbench.iconTheme": "catppuccin-mocha",
+  "workbench.editor.restoreViewState": false,
+  "workbench.startupEditor": "none",
+  "workbench.tree.indent": 16,
+  "workbench.sideBar.location": "left",
+
+  // --- Terminal ---
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
+  "terminal.integrated.fontSize": 12,
+  "terminal.integrated.scrollback": 100000,
+  "terminal.integrated.cursorStyle": "line",
+
+  // --- Files ---
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/*.pyc": true
+  },
+
+  // --- Search ---
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/venv": true,
+    "**/.venv": true,
+    "**/__pycache__": true
+  },
+
+  // --- Python ---
+  "python.defaultInterpreterPath": "python",
+  "python.createEnvironment.trigger": "off",
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.autopep8",
+    "editor.tabSize": 4
+  },
+
+  // --- Git ---
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+
+  // --- Copilot (disabled — using Claude) ---
+  "github.copilot.advanced": {},
+  "github.copilot.chat.followUps": "never",
+  "github.copilot.chat.agent.runTasks": false,
+  "github.copilot.chat.useProjectTemplates": false,
+  "github.copilot.editor.enableCodeActions": false,
+  "github.copilot.renameSuggestions.triggerAutomatically": false,
+  "chat.commandCenter.enabled": false
+}

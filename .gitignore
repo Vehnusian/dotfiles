@@ -1,0 +1,6 @@
+# Dotfiles repo's own gitignore
+# Never commit actual secrets even into the dotfiles repo itself
+.env
+*.secret
+*.pem
+*.key
