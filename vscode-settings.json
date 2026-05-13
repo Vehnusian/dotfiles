@@ -1,10 +1,8 @@
 {
-  // --- Window ---
   "window.restoreWindows": "none",
   "window.titleBarStyle": "custom",
   "window.commandCenter": true,
 
-  // --- Editor ---
   "editor.fontFamily": "'JetBrainsMono Nerd Font', 'Cascadia Code', Consolas, monospace",
   "editor.fontSize": 13,
   "editor.fontLigatures": true,
@@ -24,22 +22,18 @@
   "editor.linkedEditing": true,
   "editor.inlineSuggest.enabled": true,
 
-  // --- Workbench ---
   "workbench.colorTheme": "Catppuccin Mocha",
   "workbench.iconTheme": "catppuccin-mocha",
   "workbench.editor.restoreViewState": false,
   "workbench.startupEditor": "none",
   "workbench.tree.indent": 16,
-  "workbench.sideBar.location": "left",
 
-  // --- Terminal ---
   "terminal.integrated.defaultProfile.windows": "PowerShell",
   "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
   "terminal.integrated.fontSize": 12,
   "terminal.integrated.scrollback": 100000,
   "terminal.integrated.cursorStyle": "line",
 
-  // --- Files ---
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -52,7 +46,6 @@
     "**/*.pyc": true
   },
 
-  // --- Search ---
   "search.exclude": {
     "**/node_modules": true,
     "**/venv": true,
@@ -60,7 +53,6 @@
     "**/__pycache__": true
   },
 
-  // --- Python ---
   "python.defaultInterpreterPath": "python",
   "python.createEnvironment.trigger": "off",
   "[python]": {
@@ -68,12 +60,10 @@
     "editor.tabSize": 4
   },
 
-  // --- Git ---
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
 
-  // --- Copilot (disabled — using Claude) ---
   "github.copilot.advanced": {},
   "github.copilot.chat.followUps": "never",
   "github.copilot.chat.agent.runTasks": false,

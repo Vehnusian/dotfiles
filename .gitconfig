@@ -1,6 +1,6 @@
 [user]
 	name = Vehnusian
-	# email = your-email@example.com  # uncomment and set this
+	email = hashimk@live.ca
 
 [init]
 	defaultBranch = main
@@ -10,8 +10,6 @@
 	editor = code --wait
 	excludesFile = ~/.gitignore_global
 	longpaths = true
-	# Prevent large files from being committed accidentally
-	bigFileThreshold = 50m
 
 [pull]
 	rebase = true
@@ -25,7 +23,6 @@
 
 [merge]
 	conflictStyle = zdiff3
-	tool = code
 
 [diff]
 	algorithm = histogram
@@ -43,14 +40,9 @@
 	unstage = reset HEAD --
 	amend = commit --amend --no-edit
 	branches = branch -a --sort=-committerdate
-	stash-all = stash push --include-untracked
-	cleanup = !git branch --merged main | grep -v 'main' | xargs -n 1 git branch -d
 
 [color]
 	ui = auto
 
 [credential]
 	helper = manager
-
-[safe]
-	directory = *

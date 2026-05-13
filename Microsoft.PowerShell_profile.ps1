@@ -1,19 +1,21 @@
-# --- Starship prompt ---
 Invoke-Expression (&starship init powershell)
 
-# --- Aliases ---
+if (Get-Command zoxide -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& { (zoxide init powershell | Out-String) })
+}
+
 Set-Alias -Name g -Value git
 Set-Alias -Name py -Value python
 Set-Alias -Name c -Value code
 Set-Alias -Name which -Value Get-Command
 Set-Alias -Name touch -Value New-Item
+if (Get-Command bat -ErrorAction SilentlyContinue) { Set-Alias -Name cat -Value bat }
 
 function ll { Get-ChildItem -Force @args }
 function .. { Set-Location .. }
 function ... { Set-Location ..\.. }
 function mkcd { param($dir) New-Item -ItemType Directory -Path $dir -Force | Out-Null; Set-Location $dir }
 
-# --- Git shortcuts ---
 function gs { git status @args }
 function ga { git add @args }
 function gc { git commit @args }
@@ -22,10 +24,10 @@ function gl { git log --oneline -20 @args }
 function gd { git diff @args }
 function gco { git checkout @args }
 
-# --- Quality of life ---
 $env:PYTHONDONTWRITEBYTECODE = 1
+$env:BAT_THEME = "Catppuccin Mocha"
+$env:FZF_DEFAULT_OPTS = "--height 40% --reverse --border"
 
-# PSReadLine tweaks
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -PredictionViewStyle ListView
 Set-PSReadLineOption -EditMode Emacs
@@ -34,7 +36,6 @@ Set-PSReadLineKeyHandler -Key Tab -Function MenuComplete
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
-# Colors for PSReadLine (Catppuccin Mocha inspired)
 Set-PSReadLineOption -Colors @{
     Command   = '#89B4FA'
     Parameter = '#F5C2E7'

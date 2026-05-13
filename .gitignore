@@ -1,6 +1,13 @@
-# Dotfiles repo's own gitignore
-# Never commit actual secrets even into the dotfiles repo itself
-.env
-*.secret
-*.pem
-*.key
+*
+!.gitignore
+!.gitconfig
+!.gitignore_global
+!.editorconfig
+!.env.example
+!starship.toml
+!Microsoft.PowerShell_profile.ps1
+!setup.ps1
+!vscode-settings.json
+!vscode-keybindings.json
+!windows-terminal-settings.json
+!README.md
