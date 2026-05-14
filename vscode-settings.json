@@ -70,5 +70,6 @@
   "github.copilot.chat.useProjectTemplates": false,
   "github.copilot.editor.enableCodeActions": false,
   "github.copilot.renameSuggestions.triggerAutomatically": false,
-  "chat.commandCenter.enabled": false
+  "chat.commandCenter.enabled": false,
+  "chat.disableAIFeatures": true
 }

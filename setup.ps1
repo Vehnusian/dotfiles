@@ -11,49 +11,52 @@
 $ErrorActionPreference = "Stop"
 $dotfiles = $PSScriptRoot
 
-function Link {
-    param([string]$Source, [string]$Target)
+$wt = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
+$vsc = "$env:APPDATA\Code\User"
 
-    if (-not (Test-Path $Source)) {
-        Write-Host "  skip  $Source not found" -ForegroundColor Yellow
-        return
-    }
+$links = @{
+    "$HOME\.gitconfig"                       = "$dotfiles\.gitconfig"
+    "$HOME\.gitignore_global"                = "$dotfiles\.gitignore_global"
+    "$HOME\.editorconfig"                    = "$dotfiles\.editorconfig"
+    "$HOME\.config\starship.toml"            = "$dotfiles\starship.toml"
+    $PROFILE.CurrentUserAllHosts             = "$dotfiles\Microsoft.PowerShell_profile.ps1"
+    "$vsc\settings.json"                     = "$dotfiles\vscode-settings.json"
+    "$vsc\keybindings.json"                  = "$dotfiles\vscode-keybindings.json"
+}
 
-    $parent = Split-Path $Target -Parent
-    if (-not (Test-Path $parent)) {
-        New-Item -ItemType Directory -Path $parent -Force | Out-Null
-    }
-
-    if (Test-Path $Target) {
-        $item = Get-Item $Target -Force
-        if ($item.LinkType -eq "SymbolicLink") {
-            Remove-Item $Target -Force
-        } else {
-            $backup = "$Target.bak.$(Get-Date -Format 'yyyyMMdd-HHmmss')"
-            Move-Item $Target $backup
-            Write-Host "  backed up $Target" -ForegroundColor Yellow
-        }
-    }
-
-    New-Item -ItemType SymbolicLink -Path $Target -Value $Source -Force | Out-Null
-    Write-Host "  ok  $Target" -ForegroundColor Green
+if (Test-Path $wt) {
+    $links["$wt\settings.json"] = "$dotfiles\windows-terminal-settings.json"
 }
 
 Write-Host "`ndotfiles: $dotfiles`n" -ForegroundColor Cyan
 
-Link "$dotfiles\.gitconfig"                    "$HOME\.gitconfig"
-Link "$dotfiles\.gitignore_global"             "$HOME\.gitignore_global"
-Link "$dotfiles\.editorconfig"                 "$HOME\.editorconfig"
-Link "$dotfiles\starship.toml"                 "$HOME\.config\starship.toml"
-Link "$dotfiles\Microsoft.PowerShell_profile.ps1" "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+foreach ($pair in $links.GetEnumerator()) {
+    $target = $pair.Key
+    $source = $pair.Value
 
-$vsc = "$env:APPDATA\Code\User"
-Link "$dotfiles\vscode-settings.json"          "$vsc\settings.json"
-Link "$dotfiles\vscode-keybindings.json"       "$vsc\keybindings.json"
+    if (-not (Test-Path $source)) {
+        Write-Host "  skip  $source missing" -ForegroundColor Yellow
+        continue
+    }
 
-$wt = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
-if (Test-Path $wt) {
-    Link "$dotfiles\windows-terminal-settings.json" "$wt\settings.json"
+    $parent = Split-Path $target -Parent
+    if (-not (Test-Path $parent)) {
+        New-Item -ItemType Directory -Path $parent -Force | Out-Null
+    }
+
+    if (Test-Path $target) {
+        $item = Get-Item $target -Force
+        if ($item.LinkType -eq "SymbolicLink") {
+            Remove-Item $target -Force
+        } else {
+            $backup = "$target.bak.$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+            Move-Item $target $backup
+            Write-Host "  backed up $target" -ForegroundColor Yellow
+        }
+    }
+
+    New-Item -ItemType SymbolicLink -Path $target -Value $source -Force | Out-Null
+    Write-Host "  ok  $target" -ForegroundColor Green
 }
 
 Write-Host "`ndone — restart terminal to apply`n" -ForegroundColor Cyan
