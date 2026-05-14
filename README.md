@@ -13,6 +13,13 @@ cd ~/dotfiles
 
 Restart the terminal.
 
+## Sync changes
+
+```powershell
+cd ~/dotfiles
+.\update.ps1
+```
+
 ## Layout
 
 | File | Linked to |

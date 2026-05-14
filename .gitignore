@@ -8,6 +8,8 @@
 !Microsoft.PowerShell_profile.ps1
 !setup.ps1
 !install.ps1
+!update.ps1
+!.gitattributes
 !vscode-settings.json
 !vscode-keybindings.json
 !windows-terminal-settings.json
