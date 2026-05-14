@@ -56,6 +56,49 @@ function gl { git log --oneline -20 @args }
 function gd { git diff @args }
 function gco { git checkout @args }
 
+function Watch-Command {
+    param(
+        [Parameter(Mandatory)][string]$Command,
+        [int]$Interval = 2
+    )
+    while ($true) {
+        Clear-Host
+        Write-Host "every ${Interval}s: $Command  ($(Get-Date -Format 'HH:mm:ss'))" -ForegroundColor DarkGray
+        Write-Host ""
+        Invoke-Expression $Command
+        Start-Sleep -Seconds $Interval
+    }
+}
+Set-Alias -Name watch -Value Watch-Command
+
+function New-PyProject {
+    param([Parameter(Mandatory)][string]$Name)
+
+    New-Item -ItemType Directory -Path $Name -Force | Out-Null
+    Set-Location $Name
+
+    uv init --name $Name --python 3.13 | Out-Null
+    git init -q
+
+    @"
+# Copy to .env and fill in values
+# API_KEY=
+"@ | Set-Content .env.example
+
+    @"
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+dist/
+build/
+"@ | Set-Content .gitignore
+
+    "# $Name`n" | Set-Content README.md
+    Write-Host "created $Name" -ForegroundColor Green
+}
+
 $env:PYTHONDONTWRITEBYTECODE = 1
 $env:BAT_THEME = "Catppuccin Mocha"
 $env:FZF_DEFAULT_OPTS = "--height 40% --reverse --border"

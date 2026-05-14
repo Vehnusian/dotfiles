@@ -23,9 +23,13 @@ $wingetPackages = @(
     "jesseduffield.lazygit"
     "fastfetch-cli.fastfetch"
     "astral-sh.uv"
+    "astral-sh.ruff"
     "Python.Python.3.13"
     "OpenJS.NodeJS.LTS"
     "DEVCOM.JetBrainsMonoNerdFont"
+    "jqlang.jq"
+    "httpie.httpie"
+    "dandavison.delta"
 )
 
 $psModules = @(
