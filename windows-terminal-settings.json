@@ -109,6 +109,13 @@
                 "source": "Windows.Terminal.PowershellCore"
             },
             {
+                "guid": "{4f8d0c50-99e1-4b2a-9d3f-c1234abc5678}",
+                "hidden": false,
+                "name": "Ubuntu",
+                "commandline": "wsl.exe -d Ubuntu-24.04",
+                "startingDirectory": "\\\\wsl$\\Ubuntu-24.04\\home\\hashi"
+            },
+            {
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": true,
