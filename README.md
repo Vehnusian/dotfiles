@@ -11,7 +11,7 @@ cd ~/dotfiles
 .\setup.ps1
 ```
 
-`install.ps1` installs everything via winget. `setup.ps1` symlinks the configs (run as admin).
+`install.ps1` installs everything via winget. `setup.ps1` symlinks the configs (run as admin). Windows Terminal settings are *copied* rather than symlinked because Terminal writes to that file on its own; re-run `setup.ps1` to refresh from the repo.
 
 ## Update
 
