@@ -47,6 +47,7 @@ $vscodeExtensions = @(
     "EditorConfig.EditorConfig"
     "GitHub.vscode-pull-request-github"
     "eamodio.gitlens"
+    "ms-vscode-remote.vscode-remote-extensionpack"
 )
 
 Write-Host "`nInstalling winget packages..." -ForegroundColor Cyan
