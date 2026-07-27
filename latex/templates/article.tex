@@ -1,0 +1,28 @@
+% Compile: tectonic --synctex --keep-logs main.tex   (or `texb main.tex`)
+% Live:    texw main.tex  — rebuilds on save, SumatraPDF auto-reloads.
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+
+\title{Title}
+\author{Hashim K}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+Hello, \LaTeX.
+
+\end{document}

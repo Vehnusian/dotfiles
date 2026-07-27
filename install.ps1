@@ -22,6 +22,11 @@ $wingetPackages = @(
     "eza-community.eza"
     "jesseduffield.lazygit"
     "fastfetch-cli.fastfetch"
+    "Neovim.Neovim"
+    "sharkdp.fd"
+    "sxyazi.yazi"
+    "SumatraPDF.SumatraPDF"
+    "zig.zig"
     "astral-sh.uv"
     "astral-sh.ruff"
     "Python.Python.3.13"
@@ -60,6 +65,23 @@ Write-Host "`nInstalling PowerShell modules..." -ForegroundColor Cyan
 foreach ($mod in $psModules) {
     Write-Host "  $mod" -ForegroundColor DarkGray
     Install-Module -Name $mod -Scope CurrentUser -Force -AcceptLicense -ErrorAction SilentlyContinue
+}
+
+Write-Host "`nInstalling tectonic (LaTeX engine, not on winget)..." -ForegroundColor Cyan
+$localBin = "$HOME\.local\bin"
+New-Item -ItemType Directory -Force $localBin | Out-Null
+if (-not (Test-Path "$localBin\tectonic.exe")) {
+    $rel = Invoke-RestMethod https://api.github.com/repos/tectonic-typesetting/tectonic/releases/latest
+    $asset = $rel.assets | Where-Object name -match 'x86_64-pc-windows-msvc\.zip$' | Select-Object -First 1
+    $zip = "$env:TEMP\tectonic.zip"
+    Invoke-WebRequest $asset.browser_download_url -OutFile $zip
+    Expand-Archive $zip "$env:TEMP\tectonic-extract" -Force
+    Get-ChildItem "$env:TEMP\tectonic-extract" -Recurse -Filter tectonic.exe |
+        ForEach-Object { Copy-Item $_.FullName "$localBin\tectonic.exe" -Force }
+    Remove-Item $zip, "$env:TEMP\tectonic-extract" -Recurse -Force -ErrorAction SilentlyContinue
+    Write-Host "  $($rel.tag_name) -> $localBin\tectonic.exe" -ForegroundColor DarkGray
+} else {
+    Write-Host "  already installed" -ForegroundColor DarkGray
 }
 
 Write-Host "`nInstalling VS Code extensions..." -ForegroundColor Cyan

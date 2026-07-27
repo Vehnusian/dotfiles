@@ -1,3 +1,8 @@
+$DOTFILES = "$HOME\dotfiles"
+$env:Path = "$HOME\.local\bin;$env:Path"
+$env:EDITOR = "nvim"
+$env:VISUAL = "nvim"
+
 Invoke-Expression (&starship init powershell)
 
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
@@ -20,6 +25,9 @@ if (Get-Module -ListAvailable Terminal-Icons) {
 Set-Alias -Name g -Value git
 Set-Alias -Name py -Value python
 Set-Alias -Name c -Value code
+Set-Alias -Name v -Value nvim
+Set-Alias -Name vi -Value nvim
+Set-Alias -Name vim -Value nvim
 Set-Alias -Name lg -Value lazygit
 Set-Alias -Name which -Value Get-Command
 Set-Alias -Name touch -Value New-Item
@@ -46,6 +54,17 @@ function lt {
 }
 function .. { Set-Location .. }
 function ... { Set-Location ..\.. }
+
+# yazi: cd to wherever you were when you quit
+function y {
+    $tmp = [System.IO.Path]::GetTempFileName()
+    yazi @args --cwd-file="$tmp"
+    $cwd = Get-Content -Path $tmp -Encoding UTF8
+    if (-not [String]::IsNullOrEmpty($cwd) -and $cwd -ne $PWD.Path) {
+        Set-Location -LiteralPath ([System.IO.Path]::GetFullPath($cwd))
+    }
+    Remove-Item -Path $tmp
+}
 function mkcd { param($dir) New-Item -ItemType Directory -Path $dir -Force | Out-Null; Set-Location $dir }
 
 function gs { git status @args }
@@ -99,8 +118,47 @@ build/
     Write-Host "created $Name" -ForegroundColor Green
 }
 
+# --- LaTeX (tectonic + SumatraPDF) ---
+function texb { tectonic --synctex --keep-logs @args }
+
+function texw {
+    # Rebuild on save; SumatraPDF auto-reloads the PDF.
+    param([Parameter(Mandatory)][string]$File)
+    $File = (Resolve-Path $File).Path
+    $dir = Split-Path $File -Parent
+    tectonic --synctex --keep-logs $File
+    $last = @{}
+    foreach ($f in Get-ChildItem $dir -Recurse -Include *.tex, *.bib) {
+        $last[$f.FullName] = $f.LastWriteTimeUtc.Ticks
+    }
+    Write-Host "watching $dir — ctrl-c to stop" -ForegroundColor DarkGray
+    while ($true) {
+        Start-Sleep -Milliseconds 500
+        $changed = $false
+        foreach ($f in Get-ChildItem $dir -Recurse -Include *.tex, *.bib) {
+            if ($last[$f.FullName] -ne $f.LastWriteTimeUtc.Ticks) {
+                $last[$f.FullName] = $f.LastWriteTimeUtc.Ticks
+                $changed = $true
+            }
+        }
+        if ($changed) {
+            Write-Host "rebuilding $(Get-Date -Format 'HH:mm:ss')" -ForegroundColor DarkGray
+            tectonic --synctex --keep-logs $File
+        }
+    }
+}
+
+function New-TexDoc {
+    param([Parameter(Mandatory)][string]$Name)
+    New-Item -ItemType Directory -Path $Name -Force | Out-Null
+    Copy-Item "$DOTFILES\latex\templates\article.tex" "$Name\main.tex"
+    Set-Location $Name
+    Write-Host "created $Name\main.tex — texb main.tex to build, texw main.tex to watch" -ForegroundColor Green
+}
+
 $env:PYTHONDONTWRITEBYTECODE = 1
 $env:BAT_THEME = "Catppuccin Mocha"
+$env:YAZI_FILE_ONE = "C:\Program Files\Git\usr\bin\file.exe"
 $env:FZF_DEFAULT_OPTS = "--height 40% --reverse --border"
 
 Set-PSReadLineOption -PredictionSource HistoryAndPlugin

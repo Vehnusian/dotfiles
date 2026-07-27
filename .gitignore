@@ -1,17 +1,11 @@
-*
-!.gitignore
-!.gitconfig
-!.gitignore_global
-!.editorconfig
-!.env.example
-!starship.toml
-!Microsoft.PowerShell_profile.ps1
-!setup.ps1
-!install.ps1
-!update.ps1
-!.gitattributes
-!vscode-settings.json
-!vscode-keybindings.json
-!windows-terminal-settings.json
-!README.md
-!LICENSE
+# Backups created by setup.ps1
+*.bak.*
+*.backup.*
+
+# Secrets
+.env
+
+# LaTeX build artifacts (if compiling inside the repo)
+*.aux
+*.log
+*.synctex.gz

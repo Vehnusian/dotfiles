@@ -1,0 +1,13 @@
+# Yazi file manager. Docs: https://yazi-rs.github.io/docs/configuration/yazi
+# The `y` function in powershell/profile.ps1 cd's the shell to where you quit.
+
+[mgr]
+show_hidden = true
+sort_by = "natural"
+sort_dir_first = true
+linemode = "size"
+
+[opener]
+edit = [
+    { run = 'nvim "%*"', block = true, desc = "nvim" },
+]
