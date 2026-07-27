@@ -5,7 +5,11 @@
 vim.opt.shell = "pwsh"
 vim.opt.shellcmdflag =
   "-NoLogo -NonInteractive -ExecutionPolicy RemoteSigned -Command [Console]::OutputEncoding=[System.Text.UTF8Encoding]::new();$PSStyle.OutputRendering='PlainText';"
-vim.opt.shellredirect = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+-- 'shellredirect' was removed in Neovim 0.12. Setting it unconditionally throws
+-- and aborts the whole options file, so only set it where it still exists.
+if vim.fn.exists("&shellredirect") == 1 then
+  vim.opt.shellredirect = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+end
 vim.opt.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 vim.opt.shellquote = ""
 vim.opt.shellxquote = ""

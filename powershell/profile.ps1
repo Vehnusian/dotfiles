@@ -1,5 +1,5 @@
 $DOTFILES = "$HOME\dotfiles"
-$env:Path = "$HOME\.local\bin;$env:Path"
+if ($env:Path -notlike "*$HOME\.local\bin*") { $env:Path = "$HOME\.local\bin;$env:Path" }
 $env:EDITOR = "nvim"
 $env:VISUAL = "nvim"
 

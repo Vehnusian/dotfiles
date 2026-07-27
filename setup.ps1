@@ -109,19 +109,10 @@ if (Test-Path $wt) {
     }
 }
 
-# SumatraPDF: LaTeX inverse search (double-click PDF -> jump to line in nvim).
-$nvimExe = (Get-Command nvim -ErrorAction SilentlyContinue).Source
-$sumatraSettings = "$env:LOCALAPPDATA\SumatraPDF\SumatraPDF-settings.txt"
-if ($nvimExe -and (Test-Path (Split-Path $sumatraSettings -Parent))) {
-    $inverse = "InverseSearchCmdLine = `"$nvimExe`" --headless -c `"VimtexInverseSearch %l '%f'`""
-    $lines = @()
-    if (Test-Path $sumatraSettings) {
-        $lines = Get-Content $sumatraSettings | Where-Object {
-            $_ -notmatch '^\s*InverseSearchCmdLine' -and $_ -notmatch '^\s*EnableTeXEnhancements'
-        }
-    }
-    $lines + "EnableTeXEnhancements = true" + $inverse | Set-Content $sumatraSettings -Encoding UTF8
-    Write-Host "  ok  SumatraPDF inverse search -> nvim" -ForegroundColor Green
-}
+# SumatraPDF inverse search is NOT configured here on purpose. Writing
+# InverseSearchCmdLine into SumatraPDF-settings.txt does not stick — SumatraPDF
+# rewrites that file from memory when it exits and drops the setting. nvim passes
+# -inverse-search on SumatraPDF's command line instead, so it is applied every
+# time VimTeX opens the viewer. See nvim/lua/plugins/vimtex.lua.
 
 Write-Host "`ndone — restart terminal to apply`n" -ForegroundColor Cyan

@@ -84,6 +84,16 @@ if (-not (Test-Path "$localBin\tectonic.exe")) {
     Write-Host "  already installed" -ForegroundColor DarkGray
 }
 
+# Persist ~/.local/bin to the User PATH. The pwsh profile prepends it too, but
+# that only helps pwsh — without this, anything launched outside pwsh (nvim from
+# Explorer, cmd, VS Code's terminal) cannot find tectonic.
+$userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+if ($userPath -notlike "*$localBin*") {
+    $newPath = if ([string]::IsNullOrEmpty($userPath)) { $localBin } else { "$userPath;$localBin" }
+    [Environment]::SetEnvironmentVariable('Path', $newPath, 'User')
+    Write-Host "  added $localBin to User PATH" -ForegroundColor DarkGray
+}
+
 Write-Host "`nInstalling VS Code extensions..." -ForegroundColor Cyan
 foreach ($ext in $vscodeExtensions) {
     Write-Host "  $ext" -ForegroundColor DarkGray
