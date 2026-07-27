@@ -5,6 +5,11 @@
 # Secrets
 .env
 
+# LazyVim UI state. Extras are declared in nvim/lua/config/lazy.lua so they stay
+# version-controlled; this file only records :LazyExtras toggles and a churning
+# "news" field.
+nvim/lazyvim.json
+
 # LaTeX build artifacts (if compiling inside the repo)
 *.aux
 *.log

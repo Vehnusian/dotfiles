@@ -20,6 +20,12 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    -- Extras are declared here rather than via :LazyExtras so they live in the
+    -- dotfiles repo. dap/test come first: lang.python only wires up debugpy and
+    -- neotest-python when it sees those extras already enabled.
+    { import = "lazyvim.plugins.extras.dap.core" },
+    { import = "lazyvim.plugins.extras.test.core" },
+    { import = "lazyvim.plugins.extras.lang.python" },
     { import = "lazyvim.plugins.extras.lang.tex" },
     { import = "plugins" },
   },
