@@ -67,6 +67,18 @@
   // ms-python.autopep8 is not available on Open VSX, so it cannot be used here.
   "python.defaultInterpreterPath": "python",
   "python.createEnvironment.trigger": "off",
+  // Run scripts in the Console (a live session that keeps state and renders
+  // plots in the Plots pane) rather than spawning a throwaway terminal process.
+  "positron.execute.focusConsole": true,
+  "python.terminal.executeInFileDir": false,
+  "python.analysis.typeCheckingMode": "basic",
+  // Debugging: step into library code too, and use the integrated terminal so
+  // input() and rich output behave.
+  "debug.internalConsoleOptions": "neverOpen",
+  "debug.console.fontFamily": "'JetBrainsMono Nerd Font'",
+  "debug.toolBarLocation": "docked",
+  "debug.showInlineBreakpointCandidates": true,
+  "debug.inlineValues": "on",
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,

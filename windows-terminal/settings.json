@@ -86,7 +86,7 @@
         {
             "adjustIndistinguishableColors": "indexed",
             "antialiasingMode": "cleartype",
-            "colorScheme": "Catppuccin Mocha",
+            "colorScheme": "Tokyo Night",
             "cursorShape": "bar",
             "font": 
             {
@@ -189,11 +189,57 @@
             "selectionBackground": "#585B70",
             "white": "#BAC2DE",
             "yellow": "#F9E2AF"
+        },
+        {
+            "background": "#1A1B26",
+            "black": "#15161E",
+            "blue": "#7AA2F7",
+            "brightBlack": "#414868",
+            "brightBlue": "#7AA2F7",
+            "brightCyan": "#7DCFFF",
+            "brightGreen": "#9ECE6A",
+            "brightPurple": "#BB9AF7",
+            "brightRed": "#F7768E",
+            "brightWhite": "#C0CAF5",
+            "brightYellow": "#E0AF68",
+            "cursorColor": "#C0CAF5",
+            "cyan": "#7DCFFF",
+            "foreground": "#C0CAF5",
+            "green": "#9ECE6A",
+            "name": "Tokyo Night",
+            "purple": "#BB9AF7",
+            "red": "#F7768E",
+            "selectionBackground": "#283457",
+            "white": "#A9B1D6",
+            "yellow": "#E0AF68"
         }
     ],
-    "theme": "Catppuccin Mocha",
-    "themes": 
+    "theme": "Tokyo Night",
+    "themes":
     [
+        {
+            "name": "Tokyo Night",
+            "tab":
+            {
+                "background": "#1A1B26FF",
+                "iconStyle": "default",
+                "showCloseButton": "hover",
+                "unfocusedBackground": "#16161EFF"
+            },
+            "tabRow":
+            {
+                "background": "#16161EFF",
+                "unfocusedBackground": "#0F0F14FF"
+            },
+            "window":
+            {
+                "applicationTheme": "dark",
+                "experimental.rainbowFrame": false,
+                "frame": null,
+                "unfocusedFrame": null,
+                "useMica": false
+            }
+        },
         {
             "name": "Catppuccin Mocha",
             "tab": 

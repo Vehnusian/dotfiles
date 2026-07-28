@@ -169,15 +169,16 @@ Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 Set-PSReadLineKeyHandler -Key Ctrl+w -Function BackwardKillWord
 Set-PSReadLineKeyHandler -Key Ctrl+d -Function DeleteCharOrExit
 
+# Tokyo Night, matching starship and the Positron editor theme.
 Set-PSReadLineOption -Colors @{
-    Command   = '#89B4FA'
-    Parameter = '#F5C2E7'
-    String    = '#A6E3A1'
-    Comment   = '#6C7086'
-    Keyword   = '#CBA6F7'
-    Variable  = '#FAB387'
-    Operator  = '#94E2D5'
-    Number    = '#FAB387'
-    Type      = '#F9E2AF'
-    Error     = '#F38BA8'
+    Command   = '#7AA2F7'
+    Parameter = '#BB9AF7'
+    String    = '#9ECE6A'
+    Comment   = '#565F89'
+    Keyword   = '#9D7CD8'
+    Variable  = '#FF9E64'
+    Operator  = '#89DDFF'
+    Number    = '#FF9E64'
+    Type      = '#E0AF68'
+    Error     = '#F7768E'
 }

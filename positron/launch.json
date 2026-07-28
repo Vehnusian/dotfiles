@@ -1,0 +1,51 @@
+// Default debug configurations. setup.ps1 does NOT symlink this file — VS Code
+// and Positron read launch.json per-workspace (.vscode/launch.json), not from
+// the user config dir. Copy it into a project to use it:
+//   mkdir .vscode; cp ~/dotfiles/positron/launch.json .vscode/launch.json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "cwd": "${fileDirname}"
+    },
+    {
+      "name": "Python: Current File (project root)",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Python: Module",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "${input:moduleName}",
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "cwd": "${workspaceFolder}"
+    },
+    {
+      "name": "Python: Attach to running process",
+      "type": "debugpy",
+      "request": "attach",
+      "processId": "${command:pickProcess}",
+      "justMyCode": false
+    }
+  ],
+  "inputs": [
+    {
+      "id": "moduleName",
+      "type": "promptString",
+      "description": "Module to run (e.g. pytest)",
+      "default": "pytest"
+    }
+  ]
+}
