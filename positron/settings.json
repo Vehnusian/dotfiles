@@ -1,42 +1,84 @@
 {
   // ---- Appearance ----
-  "workbench.colorTheme": "Catppuccin Mocha",
-  "editor.fontFamily": "'JetBrainsMono Nerd Font', Consolas, monospace",
-  "editor.fontSize": 14,
+  "workbench.colorTheme": "Tokyo Night",
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.fontFamily": "'JetBrainsMono Nerd Font', 'Cascadia Code', Consolas, monospace",
+  "editor.fontSize": 13,
   "editor.fontLigatures": true,
   "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
+  "terminal.integrated.fontSize": 12,
   "workbench.startupEditor": "none",
+  "window.titleBarStyle": "custom",
+  "window.commandCenter": true,
+  "window.restoreWindows": "none",
+  "workbench.editor.restoreViewState": false,
+  "workbench.tree.indent": 16,
 
   // ---- Editor behaviour ----
   "editor.formatOnSave": true,
+  "editor.formatOnPaste": false,
   "editor.renderWhitespace": "trailing",
   "editor.rulers": [88],
   "editor.minimap.enabled": false,
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.cursorBlinking": "smooth",
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.smoothScrolling": true,
+  "editor.stickyScroll.enabled": true,
+  "editor.wordWrap": "off",
+  "editor.accessibilitySupport": "off",
+  "editor.largeFileOptimizations": false,
+  "editor.linkedEditing": true,
+  "editor.inlineSuggest.enabled": true,
+
+  // ---- Files ----
+  // onFocusChange rather than afterDelay: LaTeX autoBuild runs on save, and a
+  // 1s delayed autosave would kick off a tectonic build on every pause typing.
   "files.autoSave": "onFocusChange",
+  "files.trimTrailingWhitespace": true,
+  "files.trimFinalNewlines": true,
+  "files.insertFinalNewline": true,
   "explorer.confirmDelete": false,
+  "files.associations": { "renv.lock": "json" },
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/*.pyc": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/venv": true,
+    "**/.venv": true,
+    "**/__pycache__": true
+  },
 
   // ---- Terminal: pwsh 7, matching the rest of the setup ----
   "terminal.integrated.defaultProfile.windows": "PowerShell",
   "terminal.integrated.profiles.windows": {
     "PowerShell": { "source": "PowerShell", "icon": "terminal-powershell" }
   },
+  "terminal.integrated.scrollback": 100000,
+  "terminal.integrated.cursorStyle": "line",
 
-  // ---- Python: ruff for lint + format ----
-  // Positron ships its own Python runtime support, so no Microsoft Python
-  // extension is needed (it is not on Open VSX anyway).
+  // ---- Python ----
+  // Positron ships its own Python runtime support. ruff is the formatter:
+  // ms-python.autopep8 is not available on Open VSX, so it cannot be used here.
+  "python.defaultInterpreterPath": "python",
+  "python.createEnvironment.trigger": "off",
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
     "editor.formatOnSave": true,
+    "editor.tabSize": 4,
     "editor.codeActionsOnSave": {
       "source.organizeImports.ruff": "explicit"
     }
   },
 
   // ---- LaTeX: tectonic build, SumatraPDF preview with SyncTeX ----
-  // tectonic resolves via ~/.local/bin, which install.ps1 persists to the User
-  // PATH. Tectonic has no watch mode, so autoBuild on save stands in for it.
+  // tectonic resolves via ~/.local/bin, persisted to the User PATH by install.ps1.
+  // Tectonic has no watch mode, so autoBuild on save stands in for it.
   "latex-workshop.latex.tools": [
     {
       "name": "tectonic",
@@ -45,15 +87,10 @@
       "env": {}
     }
   ],
-  "latex-workshop.latex.recipes": [
-    { "name": "tectonic", "tools": ["tectonic"] }
-  ],
+  "latex-workshop.latex.recipes": [{ "name": "tectonic", "tools": ["tectonic"] }],
   "latex-workshop.latex.autoBuild.run": "onSave",
   "latex-workshop.latex.autoClean.run": "never",
   "latex-workshop.message.error.show": true,
-
-  // SumatraPDF is not on PATH, so it is referenced by absolute path.
-  // -reuse-instance keeps a single window that reloads on rebuild.
   "latex-workshop.view.pdf.viewer": "external",
   "latex-workshop.view.pdf.ref.viewer": "external",
   "latex-workshop.view.pdf.external.viewer.command": "C:\\Users\\hashi\\AppData\\Local\\SumatraPDF\\SumatraPDF.exe",
@@ -74,6 +111,9 @@
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
 
+  // ---- Misc ----
+  "chat.commandCenter.enabled": false,
+  "chat.disableAIFeatures": true,
   "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
   "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" }
 }
