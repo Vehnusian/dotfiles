@@ -22,7 +22,7 @@ $wingetPackages = @(
     "eza-community.eza"
     "jesseduffield.lazygit"
     "fastfetch-cli.fastfetch"
-    "Neovim.Neovim"
+    "Posit.Positron"
     "sharkdp.fd"
     "sxyazi.yazi"
     "SumatraPDF.SumatraPDF"

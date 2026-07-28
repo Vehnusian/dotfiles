@@ -1,10 +1,10 @@
 # dotfiles
 
-My Windows development environment, reproducible from a fresh install in two commands. PowerShell 7, Neovim (LazyVim), Starship, Windows Terminal, and a full command-line LaTeX workflow, themed end to end with Catppuccin Mocha.
+My Windows development environment, reproducible from a fresh install in two commands. PowerShell 7, Positron, Starship, Windows Terminal, and a full command-line LaTeX workflow, themed end to end with Catppuccin Mocha.
 
 ![Windows](https://img.shields.io/badge/Windows-11-89b4fa?style=flat-square&logo=windows11&logoColor=white)
 ![PowerShell](https://img.shields.io/badge/PowerShell-7-89b4fa?style=flat-square&logo=powershell&logoColor=white)
-![Neovim](https://img.shields.io/badge/Neovim-LazyVim-a6e3a1?style=flat-square&logo=neovim&logoColor=white)
+![Positron](https://img.shields.io/badge/IDE-Positron-a6e3a1?style=flat-square)
 ![theme: Catppuccin Mocha](https://img.shields.io/badge/theme-Catppuccin%20Mocha-cba6f7?style=flat-square)
 [![license: MIT](https://img.shields.io/badge/license-MIT-a6e3a1?style=flat-square)](LICENSE)
 
@@ -13,7 +13,7 @@ My Windows development environment, reproducible from a fresh install in two com
 ```powershell
 git clone https://github.com/Vehnusian/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-.\install.ps1      # install the toolchain via winget, PowerShell modules, tectonic, VS Code extensions
+.\install.ps1      # install the toolchain via winget, PowerShell modules, tectonic, editor extensions
 .\setup.ps1        # symlink the configs into place (needs Developer Mode or an elevated shell)
 ```
 
@@ -31,7 +31,7 @@ cd ~/dotfiles
 | Path | What it configures |
 | --- | --- |
 | `powershell/profile.ps1` | PowerShell profile: Starship, aliases, PSFzf, yazi `y` wrapper, LaTeX helpers. |
-| `nvim/` | Neovim via [LazyVim](https://www.lazyvim.org): LSP, treesitter, telescope, Catppuccin, VimTeX. |
+| `positron/` | [Positron](https://positron.posit.co) settings and keybindings: Catppuccin, ruff, LaTeX Workshop. |
 | `starship/starship.toml` | Starship prompt with the Catppuccin Mocha palette. |
 | `windows-terminal/settings.json` | Windows Terminal profiles, theme, and font. |
 | `lazygit/config.yml` | lazygit with Catppuccin theme and delta paging. |
@@ -51,7 +51,7 @@ texb main.tex        # compile once (tectonic --synctex --keep-logs)
 texw main.tex        # watch: rebuild on save, SumatraPDF live-reloads
 ```
 
-Inside Neovim, VimTeX drives the same engine: `<localleader>ll` compiles, `<localleader>lv` forward-searches to the PDF, and double-clicking in SumatraPDF jumps back to the source line (inverse search is wired up by `setup.ps1`).
+In Positron, LaTeX Workshop drives the same engine: saving a `.tex` file rebuilds it, `ctrl+alt+v` forward-searches to the PDF, and double-clicking in SumatraPDF jumps back to the source line.
 
 ## How setup works
 
@@ -61,11 +61,11 @@ Symlinks require Windows Developer Mode (Settings → System → For developers)
 
 ## Stack
 
-Shell `pwsh` · Prompt `starship` · Terminal `Windows Terminal` · Editor `Neovim (LazyVim)` · Theme `Catppuccin Mocha` · Font `JetBrains Mono Nerd Font`
+Shell `pwsh` · Prompt `starship` · Terminal `Windows Terminal` · Editor `Positron` · Theme `Catppuccin Mocha` · Font `JetBrains Mono Nerd Font`
 
 CLI `gh` `git` `delta` `zoxide` `bat` `eza` `fd` `fzf` `ripgrep` `jq` `httpie` `lazygit` `yazi` `fastfetch`
 
-LaTeX `tectonic` `SumatraPDF` `VimTeX` · Runtimes `Python 3.13` (`uv`, `ruff`) · `Node LTS` · `zig` (treesitter compiler) · PowerShell modules `PSFzf` `CompletionPredictor` `Terminal-Icons` `PSScriptAnalyzer`
+LaTeX `tectonic` `SumatraPDF` `LaTeX Workshop` · Runtimes `Python 3.13` (`uv`, `ruff`) · `Node LTS` · PowerShell modules `PSFzf` `CompletionPredictor` `Terminal-Icons` `PSScriptAnalyzer`
 
 ## License
 

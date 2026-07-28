@@ -1,0 +1,79 @@
+{
+  // ---- Appearance ----
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "editor.fontFamily": "'JetBrainsMono Nerd Font', Consolas, monospace",
+  "editor.fontSize": 14,
+  "editor.fontLigatures": true,
+  "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
+  "workbench.startupEditor": "none",
+
+  // ---- Editor behaviour ----
+  "editor.formatOnSave": true,
+  "editor.renderWhitespace": "trailing",
+  "editor.rulers": [88],
+  "editor.minimap.enabled": false,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.autoSave": "onFocusChange",
+  "explorer.confirmDelete": false,
+
+  // ---- Terminal: pwsh 7, matching the rest of the setup ----
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": { "source": "PowerShell", "icon": "terminal-powershell" }
+  },
+
+  // ---- Python: ruff for lint + format ----
+  // Positron ships its own Python runtime support, so no Microsoft Python
+  // extension is needed (it is not on Open VSX anyway).
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+
+  // ---- LaTeX: tectonic build, SumatraPDF preview with SyncTeX ----
+  // tectonic resolves via ~/.local/bin, which install.ps1 persists to the User
+  // PATH. Tectonic has no watch mode, so autoBuild on save stands in for it.
+  "latex-workshop.latex.tools": [
+    {
+      "name": "tectonic",
+      "command": "tectonic",
+      "args": ["--synctex", "--keep-logs", "%DOC_EXT%"],
+      "env": {}
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    { "name": "tectonic", "tools": ["tectonic"] }
+  ],
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.autoClean.run": "never",
+  "latex-workshop.message.error.show": true,
+
+  // SumatraPDF is not on PATH, so it is referenced by absolute path.
+  // -reuse-instance keeps a single window that reloads on rebuild.
+  "latex-workshop.view.pdf.viewer": "external",
+  "latex-workshop.view.pdf.ref.viewer": "external",
+  "latex-workshop.view.pdf.external.viewer.command": "C:\\Users\\hashi\\AppData\\Local\\SumatraPDF\\SumatraPDF.exe",
+  "latex-workshop.view.pdf.external.viewer.args": ["-reuse-instance", "%PDF%"],
+  "latex-workshop.view.pdf.external.synctex.command": "C:\\Users\\hashi\\AppData\\Local\\SumatraPDF\\SumatraPDF.exe",
+  "latex-workshop.view.pdf.external.synctex.args": [
+    "-reuse-instance",
+    "-forward-search",
+    "%TEX%",
+    "%LINE%",
+    "%PDF%",
+    "-inverse-search",
+    "\"C:\\Users\\hashi\\AppData\\Local\\Programs\\Positron\\bin\\positron.cmd\" -r -g \"%f:%l\""
+  ],
+
+  // ---- Git ----
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.enableSmartCommit": true,
+
+  "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" }
+}

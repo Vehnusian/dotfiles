@@ -1,7 +1,7 @@
 $DOTFILES = "$HOME\dotfiles"
 if ($env:Path -notlike "*$HOME\.local\bin*") { $env:Path = "$HOME\.local\bin;$env:Path" }
-$env:EDITOR = "nvim"
-$env:VISUAL = "nvim"
+$env:EDITOR = "positron --wait"
+$env:VISUAL = "positron --wait"
 
 Invoke-Expression (&starship init powershell)
 
@@ -25,9 +25,7 @@ if (Get-Module -ListAvailable Terminal-Icons) {
 Set-Alias -Name g -Value git
 Set-Alias -Name py -Value python
 Set-Alias -Name c -Value code
-Set-Alias -Name v -Value nvim
-Set-Alias -Name vi -Value nvim
-Set-Alias -Name vim -Value nvim
+Set-Alias -Name p -Value positron
 Set-Alias -Name lg -Value lazygit
 Set-Alias -Name which -Value Get-Command
 Set-Alias -Name touch -Value New-Item

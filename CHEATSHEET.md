@@ -1,152 +1,96 @@
 # Cheatsheet
 
-Leader is `<space>`. Localleader is `\` (used by LaTeX).
+Editor is [Positron](https://positron.posit.co) — a data-science IDE built on VS Code, so
+every standard VS Code shortcut works. `Ctrl+Shift+P` opens the command palette, which is
+the fastest way to find anything by name.
 
-**You do not need to memorise this.** Press `<space>` and wait — which-key shows every
-available next key. `<leader>sk` fuzzy-searches all keymaps live, which is always more
-current than this file.
-
-## Starting up
+## Opening things
 
 ```powershell
-nvim                 # dashboard
-nvim file.py         # open a file
-nvim .               # open a directory (file explorer)
-cd ~/Desktop/Poly; nvim .
+positron .              # open current folder
+positron file.py        # open a file
+p .                     # 'p' alias from the profile
+cd ~/Desktop/Poly; p .
 ```
 
-Exit with `<leader>qq` (quit all) or `:q`. If you get stuck in a weird mode, `<Esc>` twice
-gets you back to normal mode.
-
-## The absolute minimum Vim
+## Everyday keys
 
 | Key | Does |
 | --- | --- |
-| `i` | Insert mode (type normally). `<Esc>` to leave |
-| `:w` | Save. `:q` quit, `:wq` save+quit, `:q!` discard |
-| `dd` `yy` `p` | Delete line, copy line, paste |
-| `u` / `<C-r>` | Undo / redo |
-| `/text` then `n` | Search, jump to next match |
-| `gg` / `G` | Top / bottom of file |
-| `<C-o>` / `<C-i>` | Jump back / forward (after a `gd`) |
+| `Ctrl+Shift+P` | Command palette — search every command by name |
+| `Ctrl+P` | Quick-open a file by name |
+| `Ctrl+Shift+F` | Search across the whole project |
+| `Ctrl+B` | Toggle sidebar |
+| `` Ctrl+` `` | Toggle terminal |
+| `Ctrl+S` | Save (formats with ruff automatically) |
+| `Ctrl+/` | Comment / uncomment |
+| `Ctrl+D` | Select next occurrence (multi-cursor) |
+| `Alt+↑` / `Alt+↓` | Move line up / down |
+| `Ctrl+Shift+E` | File explorer |
 
-## Files, search, navigation
-
-| Key | Does |
-| --- | --- |
-| `<leader><space>` | Find files in project |
-| `<leader>ff` | Find files |
-| `<leader>fr` | Recent files |
-| `<leader>fg` | Find git-tracked files |
-| `<leader>/` | Live grep across the project |
-| `<leader>e` | File explorer sidebar |
-| `<leader>sk` | **Search all keymaps** |
-| `<S-h>` / `<S-l>` | Previous / next buffer |
-| `<leader>bd` | Close buffer |
-| `` <leader>` `` | Toggle to last buffer |
-| `<C-h/j/k/l>` | Move between split windows |
-| `<leader>-` / `<leader>\|` | Split below / right |
-| `<C-/>` | Toggle terminal |
-
-## Code (LSP — works in Python)
+## Reading and navigating code
 
 | Key | Does |
 | --- | --- |
-| `K` | Hover docs for symbol under cursor |
-| `gd` | Go to definition |
-| `gr` | Find references |
-| `gI` | Go to implementation |
-| `gy` | Go to type definition |
-| `gK` | Signature help |
-| `<leader>ca` | Code action (quick fixes, imports) |
-| `<leader>cr` | Rename symbol everywhere |
-| `<leader>cd` | Show diagnostic on this line |
-| `]d` / `[d` | Next / previous diagnostic |
-| `]e` / `[e` | Next / previous error |
-| `<leader>cl` | LSP info (is the server attached?) |
-| `<leader>cm` | Mason (manage LSP servers) |
+| `F12` | Go to definition |
+| `Alt+F12` | Peek definition inline |
+| `Shift+F12` | Find all references |
+| `Ctrl+Click` | Jump to whatever you clicked |
+| `Alt+←` / `Alt+→` | Navigate back / forward |
+| `F2` | Rename symbol everywhere |
+| `Ctrl+.` | Quick fix / code action |
+| `Ctrl+Shift+O` | Jump to a symbol in this file |
+| `F8` | Next problem/error |
 
-Formatting happens automatically on `:w` via ruff.
+Hovering the mouse over anything shows its documentation and type.
 
 ## Python
 
-| Key | Does |
-| --- | --- |
-| `<leader>cv` | Select virtualenv (point basedpyright at a `uv` `.venv`) |
-
-### Tests
+Positron has built-in Python support — no extension needed. The **Console** (bottom panel)
+is a live session, and the **Variables** pane shows your DataFrames and objects as they
+exist in memory.
 
 | Key | Does |
 | --- | --- |
-| `<leader>tr` | Run nearest test |
-| `<leader>tt` | Run current file |
-| `<leader>tT` | Run all test files |
-| `<leader>ts` | Toggle test summary sidebar |
-| `<leader>to` | Show output of last test |
-| `<leader>tw` | Watch file, re-run on save |
-| `<leader>td` | Debug nearest test |
+| `Ctrl+Enter` | Run selection / current line in the console |
+| `F5` | Start debugging |
+| `F9` | Toggle breakpoint |
+| `F10` / `F11` | Step over / step into |
+| `Shift+F5` | Stop debugging |
 
-### Debugging
+Click a DataFrame in the Variables pane to open the data viewer — sortable, filterable,
+the main reason to use Positron over plain VS Code.
 
-| Key | Does |
-| --- | --- |
-| `<leader>db` | Toggle breakpoint |
-| `<leader>dB` | Conditional breakpoint |
-| `<leader>dc` | Start / continue |
-| `<leader>di` | Step into |
-| `<leader>dO` | Step over |
-| `<leader>do` | Step out |
-| `<leader>du` | Toggle debugger UI |
-| `<leader>de` | Evaluate expression under cursor |
-| `<leader>dr` | Toggle REPL |
-| `<leader>dt` | Terminate session |
-| `<leader>dPt` | Debug the test method under cursor |
+Formatting and import-sorting run on save via ruff.
 
-Typical loop: `<leader>db` on a line, `<leader>dc` to run, `<leader>du` to see
-variables/stack, `<leader>dO` to step, `<leader>dt` to stop.
+## LaTeX
 
-## LaTeX (localleader is `\`)
+Saving a `.tex` file rebuilds it with tectonic; SumatraPDF reloads on its own.
 
 | Key | Does |
 | --- | --- |
-| `\ll` | Compile |
-| `\lv` | Open/jump to spot in SumatraPDF |
-| `\le` | Error list |
-| `\lo` | Raw compiler output |
-| `\lc` | Clean aux files |
+| `Ctrl+Alt+B` | Build now |
+| `Ctrl+Alt+V` | Open / forward-search to the PDF |
 
-Tectonic has no continuous mode, so **`:w` rebuilds** (autocmd) and SumatraPDF reloads
-itself. Double-click in the PDF jumps back to the source line.
+Double-clicking in the PDF jumps back to the matching source line.
 
 ## Git
 
-| Key | Does |
-| --- | --- |
-| `<leader>gg` | Lazygit (whole UI: stage, commit, push, branch, log) |
-| `<leader>gb` | Blame current line |
-| `<leader>gf` | History of current file |
-| `]h` / `[h` | Next / previous change hunk |
+The Source Control panel (`Ctrl+Shift+G`) handles staging, committing and pushing. For
+anything more involved, `lg` in the terminal opens lazygit:
 
-In lazygit: `<space>` stage, `c` commit, `P` push, `p` pull, `q` quit, `?` help.
-
-## Managing the setup
-
-| Command | Does |
-| --- | --- |
-| `:Lazy` | Plugin manager — `U` update, `S` sync, `x` clean |
-| `:Mason` | Install/remove LSP servers and tools |
-| `:checkhealth` | Diagnose problems |
-| `:LazyExtras` | Browse language extras (we declare ours in `lua/config/lazy.lua`) |
+`<space>` stage · `c` commit · `P` push · `p` pull · `q` quit · `?` help
 
 ## Shell helpers (PowerShell profile)
 
 | Command | Does |
 | --- | --- |
+| `p` | Open Positron |
 | `texb main.tex` | Build once with tectonic |
 | `texw main.tex` | Watch and rebuild on change |
 | `New-TexDoc name` | Scaffold a new LaTeX document |
 | `y` | yazi file manager (cds to where you quit) |
 | `lg` | lazygit |
 | `ll` / `la` / `lt` | List / all / tree |
-| `g` `py` `c` | git / python / code |
+| `g` `py` | git / python |
 | `gs ga gc gp gl gd gco` | git status/add/commit/push/log/diff/checkout |

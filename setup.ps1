@@ -28,6 +28,7 @@ try {
 
 $wt = "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState"
 $vsc = "$env:APPDATA\Code\User"
+$positron = "$env:APPDATA\Positron\User"
 
 $links = [ordered]@{
     "$HOME\.gitconfig"                = "$dotfiles\git\.gitconfig"
@@ -37,7 +38,8 @@ $links = [ordered]@{
     $PROFILE.CurrentUserAllHosts      = "$dotfiles\powershell\profile.ps1"
     "$vsc\settings.json"              = "$dotfiles\vscode\settings.json"
     "$vsc\keybindings.json"           = "$dotfiles\vscode\keybindings.json"
-    "$env:LOCALAPPDATA\nvim"          = "$dotfiles\nvim"
+    "$positron\settings.json"         = "$dotfiles\positron\settings.json"
+    "$positron\keybindings.json"      = "$dotfiles\positron\keybindings.json"
     "$env:APPDATA\yazi\config"        = "$dotfiles\yazi"
     "$env:APPDATA\lazygit\config.yml" = "$dotfiles\lazygit\config.yml"
 }
@@ -111,8 +113,9 @@ if (Test-Path $wt) {
 
 # SumatraPDF inverse search is NOT configured here on purpose. Writing
 # InverseSearchCmdLine into SumatraPDF-settings.txt does not stick — SumatraPDF
-# rewrites that file from memory when it exits and drops the setting. nvim passes
-# -inverse-search on SumatraPDF's command line instead, so it is applied every
-# time VimTeX opens the viewer. See nvim/lua/plugins/vimtex.lua.
+# rewrites that file from memory when it exits and drops the setting. LaTeX
+# Workshop passes the inverse-search command on SumatraPDF's command line
+# instead, so it is applied every time the viewer opens. See
+# positron/settings.json.
 
 Write-Host "`ndone — restart terminal to apply`n" -ForegroundColor Cyan

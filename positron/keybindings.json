@@ -1,0 +1,16 @@
+// Positron keybindings. Defaults are standard VS Code bindings; these only add
+// a few conveniences.
+[
+  // Run the current file in the Positron console
+  { "key": "ctrl+enter", "command": "workbench.action.positronConsole.executeCode", "when": "editorTextFocus" },
+
+  // Toggle the integrated terminal with the same chord used elsewhere
+  { "key": "ctrl+`", "command": "workbench.action.terminal.toggleTerminal" },
+
+  // LaTeX: build and forward-search to the PDF
+  { "key": "ctrl+alt+b", "command": "latex-workshop.build", "when": "editorLangId == 'latex'" },
+  { "key": "ctrl+alt+v", "command": "latex-workshop.view", "when": "editorLangId == 'latex'" },
+
+  // Quick file/symbol navigation
+  { "key": "ctrl+shift+e", "command": "workbench.view.explorer" }
+]
