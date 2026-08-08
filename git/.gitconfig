@@ -56,3 +56,6 @@
 
 [credential]
 	helper = manager
+
+[safe]
+	directory = %(prefix)///wsl.localhost/Ubuntu-24.04/home/vehn/polymarket_v2

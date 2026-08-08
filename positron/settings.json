@@ -10,6 +10,9 @@
   "workbench.startupEditor": "none",
   "window.titleBarStyle": "custom",
   "window.commandCenter": true,
+  "workbench.statusBar.visible": false,
+  "workbench.activityBar.location": "hidden",
+  "workbench.layoutControl.enabled": false,
   "window.restoreWindows": "none",
   "workbench.editor.restoreViewState": false,
   "workbench.tree.indent": 16,
@@ -87,6 +90,8 @@
       "source.organizeImports.ruff": "explicit"
     }
   },
+  "jupyter.interactiveWindow.creationMode": "perFile",
+  "jupyter.interactiveWindow.textEditor.executeSelection": true,
 
   // ---- LaTeX: tectonic build, SumatraPDF preview with SyncTeX ----
   // tectonic resolves via ~/.local/bin, persisted to the User PATH by install.ps1.
@@ -127,9 +132,16 @@
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
 
+  // ---- WSL ----
+  // Lets Positron open repos living in WSL (\\wsl.localhost\...) without the
+  // untrusted-UNC-host block.
+  "security.allowedUNCHosts": ["wsl.localhost"],
+
   // ---- Misc ----
   "chat.commandCenter.enabled": false,
   "chat.disableAIFeatures": true,
+  // Written by Positron 2026.08's settings migration for Posit Assistant.
+  "authentication.anthropic.baseUrl": "https://api.anthropic.com/v1",
   "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
   "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" }
 }

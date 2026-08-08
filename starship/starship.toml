@@ -1,5 +1,13 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+# Bump default 30 ms scan budget to 500 ms: the polymarket_v2 working
+# tree lives in WSL (//wsl.localhost/Ubuntu-24.04/...) and the 9p
+# protocol crossing WSL <-> Windows blows past the default budget,
+# which prints two "[WARN] starship::context" lines on every prompt
+# redraw. 500 ms is generous; bump higher if it still warns.
+scan_timeout = 500
+command_timeout = 1000
+
 format = """
 [](mauve)\
 $os\
