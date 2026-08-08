@@ -1,11 +1,11 @@
 # dotfiles
 
-My Windows development environment, reproducible from a fresh install in two commands. PowerShell 7, Positron, Starship, Windows Terminal, and a full command-line LaTeX workflow, themed end to end with Catppuccin Mocha.
+My Windows development environment, reproducible from a fresh install in two commands. PowerShell 7, Positron, Starship, Windows Terminal, and a full command-line LaTeX workflow, themed end to end with Tokyo Night.
 
 ![Windows](https://img.shields.io/badge/Windows-11-89b4fa?style=flat-square&logo=windows11&logoColor=white)
 ![PowerShell](https://img.shields.io/badge/PowerShell-7-89b4fa?style=flat-square&logo=powershell&logoColor=white)
 ![Positron](https://img.shields.io/badge/IDE-Positron-a6e3a1?style=flat-square)
-![theme: Catppuccin Mocha](https://img.shields.io/badge/theme-Catppuccin%20Mocha-cba6f7?style=flat-square)
+![theme: Tokyo Night](https://img.shields.io/badge/theme-Tokyo%20Night-7aa2f7?style=flat-square)
 [![license: MIT](https://img.shields.io/badge/license-MIT-a6e3a1?style=flat-square)](LICENSE)
 
 ## Install
@@ -31,14 +31,14 @@ cd ~/dotfiles
 | Path | What it configures |
 | --- | --- |
 | `powershell/profile.ps1` | PowerShell profile: Starship, aliases, PSFzf, yazi `y` wrapper, LaTeX helpers. |
-| `positron/` | [Positron](https://positron.posit.co) settings and keybindings: Catppuccin, ruff, LaTeX Workshop. |
-| `starship/starship.toml` | Starship prompt with the Catppuccin Mocha palette. |
+| `positron/` | [Positron](https://positron.posit.co) settings, keybindings, and debug configs: Tokyo Night, ruff, LaTeX Workshop. |
+| `starship/starship.toml` | Starship prompt. Tokyo Night and Catppuccin palettes; switch with the `palette` key. |
 | `windows-terminal/settings.json` | Windows Terminal profiles, theme, and font. |
-| `lazygit/config.yml` | lazygit with Catppuccin theme and delta paging. |
+| `lazygit/config.yml` | lazygit with delta paging. |
 | `yazi/yazi.toml` | Yazi terminal file manager. |
 | `latex/templates/` | Document templates used by `New-TexDoc`. |
 | `git/.gitconfig`, `git/.gitignore_global` | Git config: delta pager, histogram diffs, zdiff3 conflicts, aliases. |
-| `vscode/` | VS Code settings and keybindings (kept as a fallback editor). |
+| `vscode/` | VS Code settings and keybindings, kept in sync with Positron so either editor behaves identically. |
 | `install.ps1` / `setup.ps1` / `update.ps1` | Toolchain install · config symlinks · pull-and-relink. |
 
 ## LaTeX workflow
@@ -51,7 +51,28 @@ texb main.tex        # compile once (tectonic --synctex --keep-logs)
 texw main.tex        # watch: rebuild on save, SumatraPDF live-reloads
 ```
 
-In Positron, LaTeX Workshop drives the same engine: saving a `.tex` file rebuilds it, `ctrl+alt+v` forward-searches to the PDF, and double-clicking in SumatraPDF jumps back to the source line.
+In Positron and VS Code alike, LaTeX Workshop drives the same engine: saving a `.tex` file rebuilds it, `ctrl+alt+v` forward-searches to the PDF, and double-clicking in SumatraPDF jumps back to the source line.
+
+## Data science
+
+Positron's Console is a live session, so state persists between runs, DataFrames appear in the Variables pane, and plots render in the Plots pane. `install.ps1` installs `numpy`, `pandas`, `matplotlib`, `seaborn`, `plotly`, `scipy`, `ipywidgets` and `ipykernel`.
+
+`Ctrl+Enter` runs the selection or current line. `F5` debugs, with inline variable values while paused. `positron/launch.json` holds debugpy configurations — it is **per-workspace**, so copy it into a project rather than expecting it to apply globally:
+
+```powershell
+mkdir .vscode; cp ~/dotfiles/positron/launch.json .vscode/launch.json
+```
+
+VS Code gets the equivalent via the Python and Jupyter extensions, which `install.ps1` installs; formatting is ruff in both, so switching editors changes nothing.
+
+## Portability
+
+Nothing in the tracked configs contains a username or absolute user path, so the repo moves between machines unchanged. Two mechanisms make that work:
+
+- `~/.local/bin` is persisted to the User PATH, and `tectonic` lives there.
+- SumatraPDF is symlinked into `~/.local/bin` as `sumatrapdf.exe`, so editor configs reference a bare `sumatrapdf` on PATH rather than an install location that varies by user and by installer.
+
+On a new machine, `install.ps1` then `setup.ps1` is the whole bootstrap.
 
 ## How setup works
 
@@ -61,11 +82,11 @@ Symlinks require Windows Developer Mode (Settings → System → For developers)
 
 ## Stack
 
-Shell `pwsh` · Prompt `starship` · Terminal `Windows Terminal` · Editor `Positron` · Theme `Catppuccin Mocha` · Font `JetBrains Mono Nerd Font`
+Shell `pwsh` · Prompt `starship` · Terminal `Windows Terminal` · Editor `Positron` / `VS Code` · Theme `Tokyo Night` · Font `JetBrains Mono Nerd Font`
 
 CLI `gh` `git` `delta` `zoxide` `bat` `eza` `fd` `fzf` `ripgrep` `jq` `httpie` `lazygit` `yazi` `fastfetch`
 
-LaTeX `tectonic` `SumatraPDF` `LaTeX Workshop` · Runtimes `Python 3.13` (`uv`, `ruff`) · `Node LTS` · PowerShell modules `PSFzf` `CompletionPredictor` `Terminal-Icons` `PSScriptAnalyzer`
+LaTeX `tectonic` `SumatraPDF` `LaTeX Workshop` · Data science `numpy` `pandas` `matplotlib` `seaborn` `plotly` `ipykernel` · Runtimes `Python 3.13` (`uv`, `ruff`) · `Node LTS` · PowerShell modules `PSFzf` `CompletionPredictor` `Terminal-Icons` `PSScriptAnalyzer`
 
 ## License
 

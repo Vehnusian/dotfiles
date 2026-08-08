@@ -26,7 +26,6 @@ $wingetPackages = @(
     "sharkdp.fd"
     "sxyazi.yazi"
     "SumatraPDF.SumatraPDF"
-    "zig.zig"
     "astral-sh.uv"
     "astral-sh.ruff"
     "Python.Python.3.13"
@@ -44,15 +43,45 @@ $psModules = @(
     "Terminal-Icons"
 )
 
+# Positron resolves extensions from Open VSX, so only ids published there work.
+# Its Python, Jupyter and debugpy support is built in and needs no extension.
+$positronExtensions = @(
+    "enkia.tokyo-night"
+    "pkief.material-icon-theme"
+    "charliermarsh.ruff"
+    "james-yu.latex-workshop"
+    "tamasfe.even-better-toml"
+    "editorconfig.editorconfig"
+)
+
+# VS Code pulls from the Microsoft marketplace, so it additionally needs the
+# Python/Jupyter extensions that Positron bundles.
 $vscodeExtensions = @(
-    "Catppuccin.catppuccin-vsc"
-    "Catppuccin.catppuccin-vsc-icons"
-    "ms-python.python"
-    "ms-python.autopep8"
+    "enkia.tokyo-night"
+    "pkief.material-icon-theme"
+    "charliermarsh.ruff"
+    "James-Yu.latex-workshop"
+    "tamasfe.even-better-toml"
     "EditorConfig.EditorConfig"
+    "ms-python.python"
+    "ms-python.debugpy"
+    "ms-toolsai.jupyter"
     "GitHub.vscode-pull-request-github"
     "eamodio.gitlens"
-    "ms-vscode-remote.vscode-remote-extensionpack"
+)
+
+# Data-science stack. Positron renders matplotlib/plotly in its Plots pane and
+# DataFrames in the Variables pane; ipykernel backs the Console.
+$pythonPackages = @(
+    "ipykernel"
+    "jupyter_client"
+    "numpy"
+    "pandas"
+    "matplotlib"
+    "seaborn"
+    "plotly"
+    "scipy"
+    "ipywidgets"
 )
 
 Write-Host "`nInstalling winget packages..." -ForegroundColor Cyan
@@ -85,8 +114,8 @@ if (-not (Test-Path "$localBin\tectonic.exe")) {
 }
 
 # Persist ~/.local/bin to the User PATH. The pwsh profile prepends it too, but
-# that only helps pwsh — without this, anything launched outside pwsh (nvim from
-# Explorer, cmd, VS Code's terminal) cannot find tectonic.
+# that only helps pwsh — without this, anything launched outside pwsh (an editor
+# started from Explorer, cmd, a VS Code terminal) cannot find tectonic.
 $userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
 if ($userPath -notlike "*$localBin*") {
     $newPath = if ([string]::IsNullOrEmpty($userPath)) { $localBin } else { "$userPath;$localBin" }
@@ -94,10 +123,55 @@ if ($userPath -notlike "*$localBin*") {
     Write-Host "  added $localBin to User PATH" -ForegroundColor DarkGray
 }
 
+# Symlink SumatraPDF into ~/.local/bin so editor configs can reference it as a
+# bare `sumatrapdf` on PATH. Without this the LaTeX settings would need an
+# absolute, username-specific path and would not survive moving machines.
+$sumatra = @(
+    "$env:LOCALAPPDATA\SumatraPDF\SumatraPDF.exe"
+    "$env:ProgramFiles\SumatraPDF\SumatraPDF.exe"
+    "${env:ProgramFiles(x86)}\SumatraPDF\SumatraPDF.exe"
+) | Where-Object { Test-Path $_ } | Select-Object -First 1
+
+if ($sumatra) {
+    $shim = "$localBin\sumatrapdf.exe"
+    if (Test-Path $shim) { Remove-Item $shim -Force }
+    New-Item -ItemType SymbolicLink -Path $shim -Target $sumatra -ErrorAction SilentlyContinue | Out-Null
+    if (Test-Path $shim) {
+        Write-Host "  sumatrapdf -> $sumatra" -ForegroundColor DarkGray
+    } else {
+        Write-Host "  could not symlink SumatraPDF (needs Developer Mode)" -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "  SumatraPDF not found — LaTeX preview will not work" -ForegroundColor Yellow
+}
+
+Write-Host "`nInstalling Python packages..." -ForegroundColor Cyan
+python -m pip install --quiet --upgrade @pythonPackages 2>&1 | Out-Null
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "  $($pythonPackages -join ', ')" -ForegroundColor DarkGray
+} else {
+    Write-Host "  pip install failed — check that python is on PATH" -ForegroundColor Yellow
+}
+
+Write-Host "`nInstalling Positron extensions..." -ForegroundColor Cyan
+$positronCli = "$env:LOCALAPPDATA\Programs\Positron\bin\positron.cmd"
+if (Test-Path $positronCli) {
+    foreach ($ext in $positronExtensions) {
+        Write-Host "  $ext" -ForegroundColor DarkGray
+        & $positronCli --install-extension $ext --force 2>&1 | Out-Null
+    }
+} else {
+    Write-Host "  Positron CLI not found — skipping" -ForegroundColor Yellow
+}
+
 Write-Host "`nInstalling VS Code extensions..." -ForegroundColor Cyan
-foreach ($ext in $vscodeExtensions) {
-    Write-Host "  $ext" -ForegroundColor DarkGray
-    code --install-extension $ext --force 2>&1 | Out-Null
+if (Get-Command code -ErrorAction SilentlyContinue) {
+    foreach ($ext in $vscodeExtensions) {
+        Write-Host "  $ext" -ForegroundColor DarkGray
+        code --install-extension $ext --force 2>&1 | Out-Null
+    }
+} else {
+    Write-Host "  code CLI not found — skipping" -ForegroundColor Yellow
 }
 
 Write-Host "`ndone — run .\setup.ps1 next to symlink configs" -ForegroundColor Cyan

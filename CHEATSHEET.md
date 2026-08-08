@@ -61,7 +61,16 @@ exist in memory.
 Click a DataFrame in the Variables pane to open the data viewer — sortable, filterable,
 the main reason to use Positron over plain VS Code.
 
+Plots (`matplotlib`, `seaborn`, `plotly`) render in the Plots pane; use its history arrows
+to step back through earlier figures.
+
 Formatting and import-sorting run on save via ruff.
+
+For the full debug configurations, copy them into the project first:
+
+```powershell
+mkdir .vscode; cp ~/dotfiles/positron/launch.json .vscode/launch.json
+```
 
 ## LaTeX
 

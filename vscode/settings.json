@@ -1,40 +1,40 @@
 {
-  "window.restoreWindows": "none",
-  "window.titleBarStyle": "custom",
-  "window.commandCenter": true,
+  // Kept in sync with positron/settings.json so switching editors changes
+  // nothing about how the environment behaves. Differences are noted inline.
+
+  // ---- Appearance ----
+  "workbench.colorTheme": "Tokyo Night",
+  "workbench.iconTheme": "material-icon-theme",
   "editor.fontFamily": "'JetBrainsMono Nerd Font', 'Cascadia Code', Consolas, monospace",
   "editor.fontSize": 13,
   "editor.fontLigatures": true,
-  "editor.minimap.enabled": false,
+  "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
+  "terminal.integrated.fontSize": 12,
+  "workbench.startupEditor": "none",
+  "window.titleBarStyle": "custom",
+  "window.commandCenter": true,
+  "workbench.tree.indent": 16,
+
+  // ---- Editor behaviour ----
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
+  "editor.renderWhitespace": "trailing",
+  "editor.rulers": [88],
+  "editor.minimap.enabled": false,
   "editor.bracketPairColorization.enabled": true,
   "editor.guides.bracketPairs": "active",
   "editor.cursorBlinking": "smooth",
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.smoothScrolling": true,
   "editor.stickyScroll.enabled": true,
-  "editor.wordWrap": "off",
-  "editor.renderWhitespace": "trailing",
-  "editor.accessibilitySupport": "off",
-  "editor.largeFileOptimizations": false,
   "editor.linkedEditing": true,
-  "editor.inlineSuggest.enabled": true,
-  "workbench.colorTheme": "Catppuccin Mocha",
-  "workbench.iconTheme": "catppuccin-mocha",
-  "workbench.editor.restoreViewState": false,
-  "workbench.startupEditor": "none",
-  "workbench.tree.indent": 16,
-  "terminal.integrated.defaultProfile.windows": "PowerShell",
-  "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font'",
-  "terminal.integrated.fontSize": 12,
-  "terminal.integrated.scrollback": 100000,
-  "terminal.integrated.cursorStyle": "line",
+
+  // ---- Files ----
+  "files.autoSave": "onFocusChange",
   "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
-  "files.autoSave": "afterDelay",
-  "files.autoSaveDelay": 1000,
+  "files.insertFinalNewline": true,
+  "explorer.confirmDelete": false,
   "files.exclude": {
     "**/__pycache__": true,
     "**/.DS_Store": true,
@@ -47,22 +47,74 @@
     "**/.venv": true,
     "**/__pycache__": true
   },
+
+  // ---- Terminal ----
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": { "source": "PowerShell", "icon": "terminal-powershell" }
+  },
+  "terminal.integrated.scrollback": 100000,
+  "terminal.integrated.cursorStyle": "line",
+
+  // ---- Python ----
+  // Unlike Positron, VS Code needs the Microsoft Python extension for the
+  // language server and interactive window; install.ps1 installs it. ruff is
+  // still the formatter, so formatting is identical across both editors.
   "python.defaultInterpreterPath": "python",
   "python.createEnvironment.trigger": "off",
   "[python]": {
-    "editor.defaultFormatter": "ms-python.autopep8",
-    "editor.tabSize": 4
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.ruff": "explicit"
+    }
   },
+  // Plots and DataFrames in an interactive window, the nearest equivalent to
+  // Positron's Console + Plots panes.
+  "jupyter.interactiveWindow.creationMode": "perFile",
+  "jupyter.interactiveWindow.textEditor.executeSelection": true,
+
+  // ---- Debugging ----
+  "debug.internalConsoleOptions": "neverOpen",
+  "debug.console.fontFamily": "'JetBrainsMono Nerd Font'",
+  "debug.toolBarLocation": "docked",
+  "debug.showInlineBreakpointCandidates": true,
+  "debug.inlineValues": "on",
+
+  // ---- LaTeX: identical tectonic + SumatraPDF setup, all PATH-resolved ----
+  "latex-workshop.latex.tools": [
+    {
+      "name": "tectonic",
+      "command": "tectonic",
+      "args": ["--synctex", "--keep-logs", "%DOC_EXT%"],
+      "env": {}
+    }
+  ],
+  "latex-workshop.latex.recipes": [{ "name": "tectonic", "tools": ["tectonic"] }],
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.autoClean.run": "never",
+  "latex-workshop.message.error.show": true,
+  "latex-workshop.view.pdf.viewer": "external",
+  "latex-workshop.view.pdf.ref.viewer": "external",
+  "latex-workshop.view.pdf.external.viewer.command": "sumatrapdf",
+  "latex-workshop.view.pdf.external.viewer.args": ["-reuse-instance", "%PDF%"],
+  "latex-workshop.view.pdf.external.synctex.command": "sumatrapdf",
+  "latex-workshop.view.pdf.external.synctex.args": [
+    "-reuse-instance",
+    "-forward-search",
+    "%TEX%",
+    "%LINE%",
+    "%PDF%",
+    "-inverse-search",
+    "code -r -g \"%f:%l\""
+  ],
+
+  // ---- Git ----
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
-  "github.copilot.advanced": {},
-  "github.copilot.chat.followUps": "never",
-  "github.copilot.chat.agent.runTasks": false,
-  "github.copilot.chat.useProjectTemplates": false,
-  "github.copilot.editor.enableCodeActions": false,
-  "github.copilot.renameSuggestions.triggerAutomatically": false,
-  "chat.commandCenter.enabled": false,
-  "chat.disableAIFeatures": true,
-  "typescript.experimental.useTsgo": true
+
+  "[json]": { "editor.defaultFormatter": "vscode.json-language-features" },
+  "[jsonc]": { "editor.defaultFormatter": "vscode.json-language-features" }
 }
