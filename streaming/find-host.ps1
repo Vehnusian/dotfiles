@@ -101,10 +101,12 @@ Write-Host "$Address" -ForegroundColor Cyan
 
 $ping = Test-Connection -ComputerName $Address -Count 2 -ErrorAction SilentlyContinue
 if ($ping) {
-    $avg = [math]::Round(($ping | Measure-Object -Property Latency -Average).Average, 1)
+    # PowerShell 7 reports Latency; Windows PowerShell 5.1 reports ResponseTime.
+    $times = $ping | ForEach-Object { if ($null -ne $_.Latency) { $_.Latency } else { $_.ResponseTime } }
+    $avg = [math]::Round(($times | Measure-Object -Average).Average, 1)
     Write-Host "  ok  ping $avg ms" -ForegroundColor Green
     if ($avg -gt 10) {
-        Write-Host "      high for a LAN — is the host on Wi-Fi?" -ForegroundColor Yellow
+        Write-Host "      high for a LAN - is the host on Wi-Fi?" -ForegroundColor Yellow
     }
 } else {
     Write-Host "  --  no ping reply (some hosts block ICMP; not fatal)" -ForegroundColor Yellow
@@ -124,8 +126,8 @@ Write-Host ""
 if ($closed -eq 0) {
     # The UDP media ports only bind once a session starts, so their absence here
     # is expected and not worth reporting.
-    Write-Host "all ports open — add $Address in Moonlight`n" -ForegroundColor Green
+    Write-Host "all ports open - add $Address in Moonlight`n" -ForegroundColor Green
 } else {
-    Write-Host "$closed port(s) closed — re-run streaming\host-setup.ps1 on the host`n" -ForegroundColor Yellow
+    Write-Host "$closed port(s) closed - re-run streaming\host-setup.ps1 on the host`n" -ForegroundColor Yellow
     exit 1
 }

@@ -4,7 +4,7 @@
     can drive its desktop with Moonlight at near-native latency.
 
     Installs Sunshine, opens its ports on the Private profile only, and stops the
-    machine sleeping or blanking while plugged in — screen capture dies with the
+    machine sleeping or blanking while plugged in - screen capture dies with the
     display, so a laptop that sleeps takes the stream with it.
 
     Needs elevation: writes firewall rules and power settings.
@@ -40,7 +40,7 @@ $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIde
     ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 if (-not $isAdmin) {
-    Write-Host "Needs an elevated shell — firewall rules and power settings." -ForegroundColor Red
+    Write-Host "Needs an elevated shell - firewall rules and power settings." -ForegroundColor Red
     exit 1
 }
 
@@ -68,7 +68,7 @@ if ($installed) {
     if ($LASTEXITCODE -eq 0) {
         Write-Host "  ok  Sunshine installed" -ForegroundColor Green
     } else {
-        Write-Host "  winget failed — https://github.com/LizardByte/Sunshine/releases" -ForegroundColor Yellow
+        Write-Host "  winget failed - https://github.com/LizardByte/Sunshine/releases" -ForegroundColor Yellow
     }
 }
 
@@ -78,13 +78,13 @@ foreach ($proto in $ports.Keys) {
     Get-NetFirewallRule -DisplayName $name -ErrorAction SilentlyContinue | Remove-NetFirewallRule
     New-NetFirewallRule -DisplayName $name -Direction Inbound -Action Allow `
         -Protocol $proto -LocalPort $ports[$proto].Ports -Profile Private | Out-Null
-    Write-Host "  ok  $name  $($ports[$proto].Ports -join ', ')  — $($ports[$proto].What)" -ForegroundColor Green
+    Write-Host "  ok  $name  $($ports[$proto].Ports -join ', ')  - $($ports[$proto].What)" -ForegroundColor Green
 }
 
 Get-NetFirewallRule -DisplayName "Sunshine (mDNS)" -ErrorAction SilentlyContinue | Remove-NetFirewallRule
 New-NetFirewallRule -DisplayName "Sunshine (mDNS)" -Direction Inbound -Action Allow `
     -Protocol UDP -LocalPort 5353 -Profile Private | Out-Null
-Write-Host "  ok  Sunshine (mDNS)  5353  — autodiscovery" -ForegroundColor Green
+Write-Host "  ok  Sunshine (mDNS)  5353  - autodiscovery" -ForegroundColor Green
 
 # --- Network profile --------------------------------------------------------
 # Only the adapter actually on this subnet, so running this on the road cannot
@@ -92,7 +92,7 @@ Write-Host "  ok  Sunshine (mDNS)  5353  — autodiscovery" -ForegroundColor Gre
 $onSubnet = Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress -like "$Subnet.*" }
 
 if (-not $onSubnet) {
-    Write-Host "  skip  nothing on $Subnet.* right now — re-run while on that network" -ForegroundColor Yellow
+    Write-Host "  skip  nothing on $Subnet.* right now - re-run while on that network" -ForegroundColor Yellow
 } else {
     foreach ($addr in $onSubnet) {
         $connProfile = Get-NetConnectionProfile -InterfaceIndex $addr.InterfaceIndex -ErrorAction SilentlyContinue
@@ -119,9 +119,9 @@ if ($lan) {
     $speed = (Get-NetAdapter -InterfaceIndex $lan.InterfaceIndex -ErrorAction SilentlyContinue).LinkSpeed
     Write-Host "`n  point Moonlight at  $($lan.IPAddress)  ($($lan.InterfaceAlias), $speed)" -ForegroundColor Cyan
     if ($lan.InterfaceAlias -notmatch "Ethernet") {
-        Write-Host "  on Wi-Fi — wire it in if you can, it is the usual cause of stutter" -ForegroundColor Yellow
+        Write-Host "  on Wi-Fi - wire it in if you can, it is the usual cause of stutter" -ForegroundColor Yellow
     }
 }
 
-Write-Host "`nfinish at https://localhost:47990 — set a username, then pair the PIN`n" -ForegroundColor Cyan
+Write-Host "`nfinish at https://localhost:47990 - set a username, then pair the PIN`n" -ForegroundColor Cyan
 Start-Process "https://localhost:47990"
