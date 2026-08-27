@@ -34,6 +34,11 @@ $wingetPackages = @(
     "jqlang.jq"
     "httpie.httpie"
     "dandavison.delta"
+    # Moonlight is the viewer half of the streaming pair and does nothing until
+    # it connects somewhere, so every machine gets it. Sunshine — the host half —
+    # runs a network service, so streaming\host-setup.ps1 installs that only on
+    # the machines actually meant to be driven.
+    "MoonlightGameStreamingProject.Moonlight"
 )
 
 $psModules = @(

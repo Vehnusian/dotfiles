@@ -83,6 +83,28 @@ Saving a `.tex` file rebuilds it with tectonic; SumatraPDF reloads on its own.
 
 Double-clicking in the PDF jumps back to the matching source line.
 
+## Screen streaming
+
+Sitting at one machine, driving another over the LAN. Open Moonlight, pick the host, launch
+**Desktop**. Sunshine runs on the machine being driven.
+
+| Key | Does |
+| --- | --- |
+| `Ctrl+Alt+Shift+Q` | Quit the stream |
+| `Ctrl+Alt+Shift+S` | Performance overlay — fps, latency, dropped frames |
+| `Ctrl+Alt+Shift+X` | Full screen / windowed |
+| `Ctrl+Alt+Shift+V` | Type the local clipboard onto the host |
+| `Ctrl+Alt+Shift+Z` | Toggle keyboard and mouse capture |
+| `Ctrl+Alt+Shift+M` | Toggle mouse mode |
+
+```powershell
+.\streaming\host-setup.ps1     # on the machine being driven, elevated
+.\streaming\find-host.ps1      # on the machine you sit at, when it cannot connect
+```
+
+Smeared text is nearly always bitrate — raise it to 80-100 Mbps and pick HEVC. Stutter is
+nearly always Wi-Fi on one end.
+
 ## Git
 
 The Source Control panel (`Ctrl+Shift+G`) handles staging, committing and pushing. For

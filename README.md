@@ -39,6 +39,7 @@ cd ~/dotfiles
 | `latex/templates/` | Document templates used by `New-TexDoc`. |
 | `git/.gitconfig`, `git/.gitignore_global` | Git config: delta pager, histogram diffs, zdiff3 conflicts, aliases. |
 | `vscode/` | VS Code settings and keybindings, kept in sync with Positron so either editor behaves identically. |
+| `streaming/` | Sunshine host setup and LAN host discovery, for driving one machine's desktop from another. |
 | `install.ps1` / `setup.ps1` / `update.ps1` | Toolchain install · config symlinks · pull-and-relink. |
 
 ## LaTeX workflow
@@ -65,6 +66,32 @@ mkdir .vscode; cp ~/dotfiles/positron/launch.json .vscode/launch.json
 
 VS Code gets the equivalent via the Python and Jupyter extensions, which `install.ps1` installs; formatting is ruff in both, so switching editors changes nothing.
 
+## Screen streaming
+
+Drive one machine's desktop from another over the LAN. The laptop keeps running the work; the desktop just supplies the screen, keyboard and mouse. [Sunshine](https://github.com/LizardByte/Sunshine) hosts, [Moonlight](https://moonlight-stream.org) views — both free and open source, no account and no relay. Wired, it holds 60fps at roughly 10-20 ms, which is close enough to native to stop noticing.
+
+On the machine to be controlled, from an elevated shell:
+
+```powershell
+.\streaming\host-setup.ps1
+```
+
+It installs Sunshine, opens the ports on the Private profile only, and stops the machine sleeping or blanking while plugged in — screen capture dies with the display, so a laptop that sleeps takes the stream with it. It prints the address to point Moonlight at, then opens `https://localhost:47990` to set a username and pair.
+
+Moonlight is already installed by `install.ps1`. Add the host's address, enter the PIN it shows into Sunshine's web UI, and a Desktop tile appears. Pairing is one-time.
+
+Two Moonlight settings decide whether this is pleasant to use. Turn on **"Optimize mouse for remote desktop and other non-game apps"** — without it the cursor stays in relative game-capture mode, which makes desktop work miserable. Then raise the bitrate to **80-100 Mbps** and pick **HEVC**; the default bitrate is tuned for Wi-Fi and is the usual reason text looks smeared. Match the stream resolution to the host's native panel exactly, because anything else scales and scaling blurs text.
+
+When Moonlight cannot find the host:
+
+```powershell
+.\streaming\find-host.ps1
+```
+
+It sweeps the local /24 and reports which of Sunshine's ports are actually open. Neither script hardcodes a subnet — both derive it from whichever adapter holds the default gateway, so they move between networks unchanged.
+
+None of this is port-forwarded, and none of it should be. It is a LAN arrangement and stays one.
+
 ## Portability
 
 Nothing in the tracked configs contains a username or absolute user path, so the repo moves between machines unchanged. Two mechanisms make that work:
@@ -86,7 +113,7 @@ Shell `pwsh` · Prompt `starship` · Terminal `Windows Terminal` · Editor `Posi
 
 CLI `gh` `git` `delta` `zoxide` `bat` `eza` `fd` `fzf` `ripgrep` `jq` `httpie` `lazygit` `yazi` `fastfetch`
 
-LaTeX `tectonic` `SumatraPDF` `LaTeX Workshop` · Data science `numpy` `pandas` `matplotlib` `seaborn` `plotly` `ipykernel` · Runtimes `Python 3.13` (`uv`, `ruff`) · `Node LTS` · PowerShell modules `PSFzf` `CompletionPredictor` `Terminal-Icons` `PSScriptAnalyzer`
+Streaming `Sunshine` `Moonlight` · LaTeX `tectonic` `SumatraPDF` `LaTeX Workshop` · Data science `numpy` `pandas` `matplotlib` `seaborn` `plotly` `ipykernel` · Runtimes `Python 3.13` (`uv`, `ruff`) · `Node LTS` · PowerShell modules `PSFzf` `CompletionPredictor` `Terminal-Icons` `PSScriptAnalyzer`
 
 ## License
 
